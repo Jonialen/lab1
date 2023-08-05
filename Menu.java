@@ -31,6 +31,7 @@ public class Menu {
                     System.out.println("Puntos: " + puntosPersona);
                 }
                 puntosPersona = tirar(persona, cant_dados);
+                jugador = false;
             }
             else{
                 if (puntosPersona%20 == 0){
@@ -38,9 +39,18 @@ public class Menu {
                 }
                 System.out.println("Turno computadora");
                 puntosComputadora = tirar(computadora, cant_dados);
+                jugador = true;
                 
             }
         } 
+        if (puntosPersona > puntosComputadora){
+            System.out.println("Ganaste");
+        }
+        else{
+            System.out.println("Perdiste");
+        }
+        System.out.println("Puntos "+puntosPersona);
+        System.out.println("GAME OVER");
     }
     
     public int tirar(Jugador jugador, int cant_dados){
