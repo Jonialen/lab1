@@ -10,46 +10,58 @@ public class Menu {
         Scanner inp = new Scanner(System.in);
         System.out.println("Ingresa la cantidad de dados (1 o 3)");
         int cant_dados = inp.nextInt();
-        if (cant_dados != 1 & cant_dados != 3){
+        if (cant_dados != 1 && cant_dados != 3){
             System.out.println("No es un numero posible el "+cant_dados);
             main(args);
         }
-        inp.close();
         
         System.out.println("Inicia el juego");
         menu.juego(cant_dados);
+        inp.close();
     }
     
-    public void juego(int cant_dados){
+    public void juego(int cant_dados) {
+        Scanner inp = new Scanner(System.in);
         int puntosPersona = persona.devolverPuntos();
         int puntosComputadora = computadora.devolverPuntos();
         boolean jugador = false;
-        while(puntosComputadora < 100 & puntosPersona<100){
-            if (jugador){
+        while (puntosComputadora < 100 && puntosPersona < 100) {
+            if (jugador) {
                 System.out.println("Turno Humano");
-                if (puntosPersona%20 == 0){
+                if (puntosPersona % 20 == 0) {
                     System.out.println("Puntos: " + puntosPersona);
                 }
-                puntosPersona = tirar(persona, cant_dados);
-                jugador = false;
-            }
-            else{
-                if (puntosPersona%20 == 0){
+                while (true) {
+                    System.out.println("Tirar o pasar(1/0)");
+                    int pasar = inp.nextInt();
+                    if (pasar == 0) {
+                        System.out.println("Turno pasado");
+                        break;
+                    } else if (pasar == 1) {
+                        puntosPersona = tirar(persona, cant_dados);
+                        System.out.println("Haz lanzado");
+                        jugador = false;
+                        break;
+                    }
+                }
+            } else {
+                if (puntosPersona % 20 == 0) {
                     System.out.println("Puntos: " + puntosPersona);
                 }
                 System.out.println("Turno computadora");
                 puntosComputadora = tirar(computadora, cant_dados);
                 jugador = true;
-                
             }
-        } 
+        }
+        inp.close();
         if (puntosPersona > puntosComputadora){
             System.out.println("Ganaste");
         }
         else{
             System.out.println("Perdiste");
         }
-        System.out.println("Puntos "+puntosPersona);
+        System.out.println("Puntos jugador: "+puntosPersona);
+        System.out.println("Puntos computadora: "+puntosComputadora);
         System.out.println("GAME OVER");
     }
     
