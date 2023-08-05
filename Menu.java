@@ -5,6 +5,7 @@ public class Menu {
     public Jugador persona = new Jugador();
     public Integer puntosMaquina = 0;
     public Integer puntosJugador = 0;
+    public Integer puntosTotales = 100;
     public static void main(String[] args){
         Menu menu = new Menu();
         Scanner inp = new Scanner(System.in);
@@ -24,11 +25,12 @@ public class Menu {
         Scanner inp = new Scanner(System.in);
         int puntosPersona = persona.devolverPuntos();
         int puntosComputadora = computadora.devolverPuntos();
+        int puntos;
         boolean jugador = false;
-        while (puntosComputadora < 100 && puntosPersona < 100) {
+        while (puntosComputadora < puntosTotales && puntosPersona < puntosTotales) {
             if (jugador) {
                 System.out.println("Turno Humano");
-                if (puntosPersona % 20 == 0) {
+                if (puntosPersona % 20 == 0 && puntosPersona>0) {
                     System.out.println("Puntos: " + puntosPersona);
                 }
                 while (true) {
@@ -38,8 +40,13 @@ public class Menu {
                         System.out.println("Turno pasado");
                         break;
                     } else if (pasar == 1) {
-                        puntosPersona = tirar(persona, cant_dados);
-                        System.out.println("Haz lanzado");
+                        puntos = tirar(persona, cant_dados);
+                        int dif = puntos-puntosPersona;
+                        if (dif < 0) {
+                            dif = 0;
+                        }
+                        System.out.println("Haz lanzado, sacaste "+dif+" puntos en total");
+                        puntosPersona = puntos;
                         jugador = false;
                         break;
                     }
@@ -50,6 +57,7 @@ public class Menu {
                 }
                 System.out.println("Turno computadora");
                 puntosComputadora = tirar(computadora, cant_dados);
+                System.out.println("Computadora a lanzado");
                 jugador = true;
             }
         }
@@ -71,14 +79,10 @@ public class Menu {
                 detener = jugador.jugar();
                 
             if (detener) {
-                System.out.println("Puntos: 0");
+                System.out.println("Puntos: 0, ha salido 1");
                 break;
             }
         }
         return jugador.devolverPuntos();
-        
-
     }
-
-
 }
